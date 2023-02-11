@@ -26,6 +26,11 @@
         padding-left: 1em;
         padding-right: 1em;
     }
+
+    h1 {
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
+    }
 }
 
 /* --------------------------------------- */
@@ -35,8 +40,16 @@
 @media screen and (max-width: 400px) {
     /* page body */
     #landing-body {
-        background-image: url("landing.png");
+        /* background-image: url("landing.png"); */
+        animation: changeBgImg 3s;
+        animation-fill-mode: forwards;
         background-size: 50vh;
+    }
+
+    @keyframes changeBgImg {
+        0% {background-image: url("lightest-landing.png");}
+        50% {background-image: url("light-landing.png");}
+        100% {background-image: url("landing.png");}
     }
 
     /* div for buttons */
@@ -44,10 +57,11 @@
         position: absolute;
         top: 70%;
         left: -1.5vh;
+        text-decoration: none;
     }
 
     /* button links */
-    .landing-hrefs {
+    .landing-hrefs:link {
         text-decoration: none;
         color: black;
     }
@@ -57,6 +71,7 @@
         border-radius: 12px;
         border-color: transparent;
         box-shadow: 5px 10px;
+        color: rgb(252, 212, 220);
         text-align: center;
         background-color: white;
         padding-top: 0.5em;
@@ -65,14 +80,17 @@
         margin: 2em;
         font-family: 'Inter', sans-serif;
         font-weight: 800;
-        text-decoration: none;
+    }
+
+    .landing-buttons:hover {
+        background-color: black;
+        color: rgb(255, 240, 243);
     }
 
     /* login button */
     #landing-login-button {
         padding-left: 6em;
         padding-right: 6em;
-        text-decoration: none;
     }
 
     /* signup button */
@@ -93,7 +111,8 @@
     }
 
     #changing-text-span {
-        color: red;
+        color: pink;
+        font-family: 'Concert One', cursive;
     }
 
     #changing-text-span:after {
@@ -185,12 +204,20 @@
 
     /* buttons to change the tab */
     .change-tab-butts {
-        background-color: #ffe2e4;
+        background-color: white;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
         border-color: transparent;
         color: black;
         padding: 0.5em;
+        /* #ffe2e4 */
+    }
+
+    .change-tab-butts:hover {
+        background-color: black;
+        color: #ffe2e4;
+        border-radius: 5px;
+        border-color: white;
     }
 }
 

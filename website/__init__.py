@@ -1,7 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
+import os
 from flask_login import LoginManager
+from werkzeug.utils import secure_filename
+import uuid as uuid
 
 db = SQLAlchemy()
 DB_NAME = "love.db"

@@ -27,7 +27,7 @@
 
 
     <!-- Form with multiple 'pages' -->
-    <form method="POST" id="signup-form">
+    <form method="POST" id="signup-form" enctype="multipart/form-data">
         <div class="form-group">
             <!-- TAB ONE -->
             <div id="tab-1" class="tab" style="display:contents;">
@@ -52,7 +52,7 @@
                 <div>
                     <div style="float:right;">
                       <!-- <button class="change-tab-butts" type="button" id="prevBtn" onclick="nextPrev(-1)"></button> -->
-                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-1', 'tab-2')">Next</button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-1', 'tab-2')"><b>next</b></button>
                     </div>
                 </div>
             </div>
@@ -75,8 +75,8 @@
                 <br>
                 <div>
                     <div style="float:right;">
-                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-2', 'tab-1')"></button>
-                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-2', 'tab-3')"></button>
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-2', 'tab-1')"><b>back</b></button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-2', 'tab-3')"><b>next</b></button>
                     </div>
                 </div>
             </div>
@@ -139,8 +139,8 @@
                 <br>
                 <div>
                     <div style="float:right;">
-                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-3', 'tab-2')"></button>
-                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-3', 'tab-4')"></button>
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-3', 'tab-2')"><b>back</b></button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-3', 'tab-4')"><b>next</b></button>
                     </div>
                 </div>
             </div>
@@ -166,8 +166,8 @@
                 <br>
                 <div>
                     <div style="float:right;">
-                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-4', 'tab-3')"></button>
-                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-4', 'tab-5')"></button>
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-4', 'tab-3')"><b>back</b></button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-4', 'tab-5')"><b>next</b></button>
                     </div>
                 </div>
             </div>
@@ -199,8 +199,8 @@
                 <br>
                 <div>
                     <div style="float:right;">
-                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-5', 'tab-4')"></button>
-                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-5', 'tab-6')"></button>
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-5', 'tab-4')"><b>back</b></button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-5', 'tab-6')"><b>next</b></button>
                     </div>
                 </div>
             </div>
@@ -221,12 +221,13 @@
                 <br>
                 <!-- TODO add a profile pic situation -->
                 <label for="ppic">Profile Picture</label>
-                <input type="file" name="ppic" id="ppic" />
-                <br><br>
+                <input type="file" name="ppic" id="ppic" class="form-control"/>
+                <br><br><br>
                 <div>
                     <div style="float:right;">
-                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-6', 'tab-5')"></button>
-                      <button type="submit" class="sub-butts">Submit</button>
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-6', 'tab-5')" 
+                              style="margin-right: 1em;"><b>back</b></button>
+                      <button type="submit" class="change-tab-butts"><b>Submit</b></button>
                     </div>
                 </div>
             </div>

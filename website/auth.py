@@ -118,11 +118,13 @@ def signup():
         genre = request.form.get("genre")
         looking_for = request.form.get("looking_for")
         zipcode = request.form.get("zipcode")
-        profile_pic = request.form.get("ppic")
-        if profile_pic == None: 
-            profile_pic = "default.png" 
-        else: 
-            profile_pic = profile_pic
+
+        # dealing with the profile pic
+        profile_pic = request.files.get("ppic")
+        # if profile_pic == None: 
+        #     profile_pic = "default.png" 
+        # else: 
+        #     profile_pic = profile_pic
         
         # checking validity of inputs
         # seeing if a user exists with the given email
