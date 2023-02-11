@@ -36,6 +36,10 @@ class User(db.Model, UserMixin):
     profile_pic = db.Column(db.String(), nullable=True)
     # matches = db.relationship('Matches')
 
+    # def __repr__(self):
+    #     """ User -> str"""
+    #     return f"User f_name={self.fname} /n "
+
 
 #--------------------------------------------------------------------
 # MATCHES MODEL

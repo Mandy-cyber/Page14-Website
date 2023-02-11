@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User, Matches, BookQuotes
 from . import db
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 import os
 from .__init__ import create_app
 from .goodreadscraper import get_quote
@@ -9,6 +12,8 @@ from werkzeug.utils import secure_filename
 import uuid as uuid
 from flask_login import login_user, login_required, logout_user, current_user
 import shutil
+import string
+import re
 
 auth = Blueprint('auth', __name__)
 
@@ -28,8 +33,52 @@ def list_to_string(los):
         if str == None:
             continue
         else:
-            s = str + s
+            s = str + "," + s
     return s
+
+
+def text_pre_processing(text):
+    """ preprocesses text to be used in recommendation engine.
+        e.g removes stop words, lemmatizes text, lowercase, etc
+    
+    Args:
+        text (str): text to be processed
+    Returns:
+        processed_text (list): a list of valuable & formatted words from the text
+    """
+    # remove numbers
+    text = re.sub(r'[0-9]', '', text)
+    print(f"Text w/out ")
+
+    # remove punctuation 
+    text = text.translate('', '', string.punctuation)
+
+    # lowercase the text
+    text = text.lower()
+
+    # remove duplicate spaces + newline characters
+    text = " ".join(text.split())
+
+    # remove default stopwords
+    stop_words = set(stopwords.words('english'))
+    new_text = []
+
+    for word in list(text):
+        if word not in stopwords:
+            new_text = new_text.append(word)
+        else:
+            continue
+
+    # lemmatization
+    lemma = WordNetLemmatizer()
+    lemma_text = []
+
+    for word in new_text:
+        word = lemma.lemmatize(word)
+        lemma_text = lemma_text.append(word)
+
+    processed_text = lemma_text
+    return processed_text
 
 #--------------------------------------------------------------------
 # LOGIN PAGE
@@ -60,7 +109,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in successfully', category='success')
                 login_user(user, remember=True)
-                return render_template("home.html", user=user)
+                return redirect(url_for("views.home"))
             else:
                 flash('Incorrect email or password, try again.', category='error')
 
@@ -88,6 +137,15 @@ def signup():
     Returns: - home.html (if successful)
              - signup.html (if unsuccessful)
     """
+    # old passions method of doing stuff
+    #------------------------------------
+    # passions_list = []
+        # for x in range(1,5):
+        #     try: 
+        #         passions_list.append(request.form.get(f"passion{x}"))
+        #     except:
+        #         continue
+
     # this current year. will replace with automatic time func later
     this_yr = 2023
 
@@ -104,14 +162,7 @@ def signup():
         gender = request.form.get("gender")
         sexuality = request.form.get("sexuality")
         poly = request.form.get("poly")
-        
-        passions_list = []
-        for x in range(1,5):
-            try: 
-                passions_list.append(request.form.get(f"passion{x}"))
-            except:
-                continue
-
+        passions = request.form.get("passions")
         fav_book = request.form.get("fav_book")
         fav_book_auth = request.form.get("fav_book_auth")
         genre = request.form.get("genre")
@@ -188,8 +239,8 @@ def signup():
 # LOGOUT
 #--------------------------------------------------------------------
 
-@auth.route('/logout', methods=['GET', 'POST'])
 @login_required
+@auth.route('/logout', methods=['GET', 'POST'])
 def logout():
     """ where an existing user logs out of the website.
     

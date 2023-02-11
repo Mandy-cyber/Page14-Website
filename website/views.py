@@ -23,8 +23,8 @@ def landing():
 # HOME PAGE
 #--------------------------------------------------------------------
 
-@views.route('/home')
 @login_required
+@views.route('/home')
 def home():
     """ the home page of the website
     Returns: renders home.html
@@ -36,8 +36,8 @@ def home():
 # MATCHES PAGE
 #--------------------------------------------------------------------
 
-@views.route('/matches')
 @login_required
+@views.route('/matches')
 def matches():
     """ the page where a user can go through all 
         their different potential matches.
@@ -50,8 +50,8 @@ def matches():
 # MESSAGES PAGE
 #--------------------------------------------------------------------
 
-@views.route('/messages', methods=['GET', 'POST'])
 @login_required
+@views.route('/messages', methods=['GET', 'POST'])
 def messages():
     """ where a user can chat with people they
         have matched with.
@@ -64,8 +64,8 @@ def messages():
 # PROFILE PAGE
 #--------------------------------------------------------------------
 
-@views.route('/profile', methods=['GET', 'POST'])
 @login_required
+@views.route('/profile', methods=['GET', 'POST'])
 def profile():
     """ where a user can see their profile, and make
         changes/updates to it.
