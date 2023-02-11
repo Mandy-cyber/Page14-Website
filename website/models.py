@@ -1,5 +1,5 @@
 from email.policy import default
-from . import db 
+from __init__ import db 
 from flask_login import UserMixin
 from sqlalchemy.sql import func # func will help us get the current date and time
 
@@ -8,12 +8,11 @@ from sqlalchemy.sql import func # func will help us get the current date and tim
 #--------------------------------------------------------------------
 # TODO set some values as nullable=True
 
-class User(db.Model, UserMixin):
-    """ describes a user of the website
-    
-    Attributes: too many to list right now omg
-    """
 
+class User(db.Model, UserMixin):
+    """ 
+    describes a user of the website
+    """
     id = db.Column(db.Integer, primary_key=True)
     f_name = db.Column(db.String(32)) # first name
     l_name = db.Column(db.String(32)) # last name
@@ -50,9 +49,7 @@ class Matches(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     # not sure if imma need this or not so just leaving it here for now
-    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    # TODO figure out how to make an attribute a class
-    # match = db.Column(User)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 #--------------------------------------------------------------------
