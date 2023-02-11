@@ -81,24 +81,31 @@
 @media screen and (max-width: 400px) {
     #signup-body {
         background-color: white;
+        overflow-y: hidden;
     }
 
     /* div holding all waves */
     #waves-div {
         width: 150%;
+        height: auto;
+        position: relative;
+        left: -5%;
+        top: 85vh;
     }
 
     /* wave shape */
     .wave {
-        background-color: white;
+        background-color: transparent;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
     }
 
     /* svg for wave */
     .wave svg {
         display: block;
-        width: 100%;
     }
-
 }
 
 
