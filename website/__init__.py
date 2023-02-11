@@ -19,7 +19,10 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
  
     from .models import User, Matches, BookQuotes
-    create_database(app)
+    # create_database(app)  
+    # above is deprecated xD, so below is newer version i guess
+    with app.app_context():
+        db.create_all()
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login' #where the website should direct us if the user is not logged in
@@ -31,7 +34,9 @@ def create_app():
     return app
 
 
-def create_database(app): #check if database already exists. if not, create it
-    if not path.exists('website/' + DB_NAME):
-        db.create_all(app=app)
-        print("Created Database!")
+# oops this way is deprecated.
+#-------------------------------
+# def create_database(app): #check if database already exists. if not, create it
+#     if not path.exists('website/' + DB_NAME):
+#         db.create_all(app=app)
+#         print("Created Database!")

@@ -4,6 +4,7 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 
+auth = Blueprint('auth', __name__)
 
 #--------------------------------------------------------------------
 # LOGIN PAGE
@@ -50,7 +51,7 @@ def signup():
 
 @auth.route('/logout', methods=['GET', 'POST'])
 @login_required
-def login():
+def logout():
     """ where an existing user logs out of the website.
     
     Returns: - home.html (if successful)

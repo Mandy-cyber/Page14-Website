@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, render_template, flash, request
 from flask_login import login_required, current_user
 from .models import User, Matches, BookQuotes
 from . import db
-views = Blueprint('views', __name__) #dont need to name it after the file, its just easier
+
+views = Blueprint('views', __name__)
 
 #--------------------------------------------------------------------
 # LANDING PAGE
@@ -37,7 +38,7 @@ def home():
 
 @views.route('/matches')
 @login_required
-def home():
+def matches():
     """ the page where a user can go through all 
         their different potential matches.
     Returns: renders matches.html
@@ -51,7 +52,7 @@ def home():
 
 @views.route('/messages', methods=['GET', 'POST'])
 @login_required
-def home():
+def messages():
     """ where a user can chat with people they
         have matched with.
     Returns: renders messages.html
@@ -65,7 +66,7 @@ def home():
 
 @views.route('/profile', methods=['GET', 'POST'])
 @login_required
-def home():
+def profile():
     """ where a user can see their profile, and make
         changes/updates to it.
     Returns: renders profile.html

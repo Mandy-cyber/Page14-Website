@@ -48,7 +48,8 @@ class Matches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # not sure if imma need this or not so just leaving it here for now
     # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    match = db.Column(User)
+    # TODO figure out how to make an attribute a class
+    # match = db.Column(User)
 
 
 #--------------------------------------------------------------------
