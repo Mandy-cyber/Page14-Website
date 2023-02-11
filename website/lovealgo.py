@@ -4,6 +4,7 @@ import re
 from models import User, Matches
 from __init__ import db
 from werkzeug.security import generate_password_hash, check_password_hash
+import pprint
 
 #--------------------------------------------------------------------
 # GENDER/SEXUALITY COMPATIBILITY
@@ -165,6 +166,7 @@ def five_synonyms(word):
 #--------------------------------------------------------------------
 # not sure how to write tests for this 
 
+# TODO figure out the scaling problem for this
 def passion_similarity(passions1, passions2):
     """ calculate how similar two users' passions are
         on an ascending scale of 0 to 1.
@@ -220,6 +222,129 @@ def passion_similarity(passions1, passions2):
 
 # passion_similarity(user_2.passions, user_3.passions)
 
+
+#--------------------------------------------------------------------
+# BONUS FOR RATING
+#--------------------------------------------------------------------
+
+def bonus_amount(user1, user2):
+    """ additional points to match rating if two
+        users share the same favorite book or author
+
+    Args:
+        user1 (User): a User
+        user2 (User): another User
+    Returns
+        bonus (double): additional points
+    """
+    # getting info from objects
+    fav_book1 = user1.fav_book
+    fav_book2 = user2.fav_book
+    fav_auth1 = user1.fav_book_auth
+    fav_auth2 = user2.fav_book_auth
+
+    info = [fav_book1, fav_book2, fav_auth1, fav_auth2]
+    btr_info = []
+    
+    # editing the text since some people
+    # might type the same thing differently
+    for i in info:
+        i = i.translate(str.maketrans('', '', string.punctuation)) # remove punctuation
+        i = i.lower() # make lowercase
+        i = " ".join(i.split()) # remove unnecessary whitespaces and newlines
+        btr_info.append(i)
+
+
+    # check if they share favorite book
+    if btr_info[0] == btr_info[1]:
+        # 5% extra
+        bk_bonus = 0.05
+    else:
+        bk_bonus = 0 
+
+
+    # check if they share favorite author
+    if btr_info[2] == btr_info[3]:
+        # 7% extra
+        au_bonus = 0.07
+    else:
+        au_bonus = 0 
+
+    bonus = bk_bonus + au_bonus
+    return bonus
+
+
+#--------------------------------------------------------------------
+# MAKE MATCH
+#--------------------------------------------------------------------
+# no serious math behind these number options. just examples for now.
+
+def make_matches(user):
+    """ add matches (i.e show them a person) if they pass
+        certain criteria determined by 'looking_for' field.
+        - fairytale = add if rating is 0.7 or above
+        - enemies-to-lovers = add if low match rating
+        - fake relationship = add if rating is 0.6 or above
+        - one bed = add if rating is 0.5 or above
+        - friends-to-lovers = add if rating is 0.8 or above
+
+    Args:
+        user (User): the user we are finding matches for
+    Returns:
+        matches (list of Matches): matches the user has
+    """
+    # in the future i won't query the entire database for matches
+    # since that would get impractical as it upscales. for now
+    # it is fine since the volume is small
+    all_users = User.query.all() # TODO remove this user from this
+    print(len(all_users))
+    user_passions = user.passions
+    user_desire = user.looking_for
+
+    # matches that pass all the filters
+    suited_matches = filter_out_matches(user, all_users)
+
+    # get the match_rating for each match
+    match_rating_dict = dict()
+
+    for suitor in suited_matches:
+        similarity_idx = passion_similarity(user_passions, suitor.passions)
+        bonus = bonus_amount(user, suitor)
+        total_rating = similarity_idx + bonus
+        if total_rating > 1:
+            match_rating_dict[suitor] = 1
+        else:
+            match_rating_dict[suitor] = total_rating
+
+    less_than_val = 1
+
+    # condition based on user_desire
+    if user_desire == 'fairytale':
+        greater_than_val = 0.7
+    elif user_desire == 'etl':
+        greater_than_val = 0
+        less_than_val = 0.5 # override value just for this case
+    elif user_desire == 'frel':
+        greater_than_val= 0.6
+    elif user_desire == 'onebed':
+        greater_than_val = 0.5
+    else:
+        greater_than_val = 0.8
+    
+
+    # use the condition to add new matches
+    # key = User class  , value = rating
+    for suitor, rating in match_rating_dict.items():
+        if less_than_val <= rating <= greater_than_val:
+            new_match = Matches(user_id=user.id, id_of_match=suitor.id,
+                                rating=rating)
+            db.session.add(new_match)
+            db.session.commit()
+            print(f"Match added between you and {suitor.f_name}")
+        else:
+            continue
+        
+
 #--------------------------------------------------------------------
 # EXAMPLES
 #--------------------------------------------------------------------
@@ -230,7 +355,7 @@ user_1 = User(f_name="Manda", l_name="Ro", email="manda@gmail.com",
               dob="2004-02-01", age=19, zipcode=00000, gender="female",
               pronouns="she/her", sexuality="bisexual", poly=1, 
               passions="reading,writing,coding,baking", looking_for="fairytale",
-              fav_book="The Fifth Season", fav_book_auth="NK Jemisin", genre="romance",
+              fav_book="Take a hint dani brown", fav_book_auth="Talia hibbert", genre="romance",
               profile_pic="default.png")
 
 user_2 = User(f_name="Lola", l_name="Ley", email="lola@gmail.com",
@@ -248,7 +373,4 @@ user_3 = User(f_name="Joe", l_name="Johnson", email="joejo@gmail.com",
               passions="writing,coding,baking,soccer,videogames", looking_for="fairytale",
               fav_book="Rage of dragons", fav_book_auth="Evan winters", genre="horror",
               profile_pic="default.png")
-
-
-# og user_3 passions = tv,film,hiking
 
