@@ -5,7 +5,6 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import os
-from .__init__ import create_app
 from .goodreadscraper import get_quote
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -80,6 +79,8 @@ def text_pre_processing(text):
 
     processed_text = lemma_text
     return processed_text
+
+
 
 
 #--------------------------------------------------------------------
@@ -219,6 +220,7 @@ def signup():
 
                 # finding a quote from their favorite book which will join
                 # the collection for the homepage
+                # TODO figure out how to not make this take forever
                 if (fav_book != None) and (fav_book_auth != None):
                     book_name , quote = get_quote(fav_book, fav_book_auth)
                     if quote != "":

@@ -1,5 +1,5 @@
 from email.policy import default
-from __init__ import db 
+from . import db 
 from flask_login import UserMixin
 from sqlalchemy.sql import func # func will help us get the current date and time
 
