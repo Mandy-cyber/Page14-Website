@@ -4,6 +4,10 @@
 
 {% block content %}
 <body id="home-body">
+    <!-- Bookmark Image -->
+    <div id="bookmark-div">
+        <img src="{{ url_for('static', filename='ribbon-bg.png') }}" alt="image of pink ribbon/bookmark" />
+    </div>
 
     <!-- Div with changing text -->
     <div id="find-your-div">
@@ -12,8 +16,33 @@
             <br>
             Charming
         </h1>
-        <p id="on-page-p"><i>on page 14</i></p>
+        <br>
+        <a href="/matches"><button id="get-booked-button">on Page 14</button></a>
     </div>
+
+    <!-- Navigation bar (for the bottom of the screen) -->
+    <nav class="bottom-nav">
+        <ul class="nav-list">
+            <li class="nav-list-item">
+                <a href="/home"><img class="nav-img" src="{{ url_for('static', filename='home-icon.png') }}" alt="home icon"></a>
+            </li>
+            <li class="nav-list-item">
+                <a href="/messages"><img class="nav-img" src="{{ url_for('static', filename='message-icon.png') }}" alt="chat bubble icon"></a>
+            </li>
+            <li class="nav-list-item">
+                <a href="/matches"><img class="nav-img" src="{{ url_for('static', filename='bmrk.png') }}" alt="bookmark icon"></a>
+            </li>
+            {% if user.profile_pic %}
+                <li class="nav-list-item">
+                    <a href="/profile"><img class="nav-img" src="{{ url_for('static', filename=user.profile_pic) }}" alt="profile icon"></a>
+                </li>
+            {% else %}
+                <li class="nav-list-item">
+                    <a href="/profile"><img class="nav-img" src="{{ url_for('static', filename='prof.png') }}" alt="profile icon"></a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 
 
 </body>

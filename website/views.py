@@ -29,7 +29,6 @@ def home():
     """ the home page of the website
     Returns: renders home.html
     """
-    print(current_user.pronouns)
     return render_template("home.html", user=current_user)
 
 

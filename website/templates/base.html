@@ -29,14 +29,14 @@
         {% if messages %}
             {% for category, message in messages %}
                 {% if category == 'error' %}
-                    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                    <div class="alert alert-danger alter-dismissable fade show" role="alert" style="position: absolute; z-index: 2;  width: 100%; padding-top: 1.25em;">
                         {{ message }}
                         <button type="button" class="close" data-dismiss="alert">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 {% else %}
-                    <div class="alert alert-success alter-dismissable fade show" role="alert">
+                    <div class="alert alert-success alter-dismissable fade show" role="alert" style="position: absolute; z-index: 2; width: 100%; padding-top: 1.25em;">
                         {{ message }}
                         <button type="button" class="close" data-dismiss="alert">
                             <span aria-hidden="true">&times;</span>

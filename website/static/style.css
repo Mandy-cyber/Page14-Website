@@ -108,16 +108,107 @@
 @media screen and (max-width: 400px) {
     #home-body {
         background-color: white;
+        overflow-y: hidden;
     }
 
+    /* navigation bar */
+    .bottom-nav {
+        position: fixed;
+        top: 90vh;
+        width: 100%;
+        height: auto;
+        padding-top: 0.25em;
+        padding-bottom: 0.25em;
+        background-color: rgba(255, 218, 218, 0.9);
+        justify-content: center;
+    }
+
+    /* list of nav items */
+    .nav-list {
+        display: inline-block;
+        text-decoration: none;
+        color: white;
+        justify-content: center;
+        /* left: -10%; */
+    }
+
+    /* nav items */
+    .nav-list-item {
+        display: inline-block;
+        text-decoration: none;
+        color: white;
+        justify-content: center;
+    }
+
+    /* navbar images */
+    .nav-img {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        margin: 2px;
+    }
+
+    .nav-img:hover {
+        box-shadow: 3px 2px;
+        color: pink;
+        /* width: 52px;
+        height: 52px; */
+    }
+    
+
+    /* div holding "Find your..." text & button */
+    #find-your-div {
+        position: relative;
+        top: 43vh;
+        padding: 3vh;
+        padding-left: 4vh;
+    }
+
+    /* bookmark div that holds the img of a ribbon/bookmark */
+    #bookmark-div {
+        position: fixed;
+        width: 10%;
+        left: -10%;
+        top: -20%;
+        z-index: -1;
+    }
+
+    /* "on page 14" button */
+    #get-booked-button {
+        background-color: pink;
+        color: white;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        border-radius: 7px;
+        border-color: transparent;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+    }
+
+    #get-booked-button:hover {
+        background-color: black;
+        box-shadow: 5px 10px;
+        color: #ffe2e4;
+    }
+
+    /* text that is changing */
     #changing-text-span {
         color: pink;
-        font-family: 'Concert One', cursive;
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
     }
 
+    /* "Find your"   "charming" text */
+    #find-your-h1 {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* things to make the text change */
     #changing-text-span:after {
         content: "princex";
-        animation: change 4s linear infinite;
+        animation: change 5s linear infinite;
     }
 
     @keyframes change {

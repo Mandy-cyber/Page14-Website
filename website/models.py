@@ -33,7 +33,7 @@ class User(db.Model, UserMixin):
     fav_book = db.Column(db.String())
     fav_book_auth = db.Column(db.String())
     genre = db.Column(db.String()) # the genre that best describes them
-    profile_pic = db.Column(db.String(), nullable=True, default="default.png")
+    profile_pic = db.Column(db.String(), nullable=True)
     # matches = db.relationship('Matches')
 
 

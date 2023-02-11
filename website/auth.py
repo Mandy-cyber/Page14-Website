@@ -2,12 +2,13 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User, Matches, BookQuotes
 from . import db
 import os
+from .__init__ import create_app
 from .goodreadscraper import get_quote
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import uuid as uuid
-
 from flask_login import login_user, login_required, logout_user, current_user
+import shutil
 
 auth = Blueprint('auth', __name__)
 
@@ -33,8 +34,6 @@ def list_to_string(los):
 #--------------------------------------------------------------------
 # LOGIN PAGE
 #--------------------------------------------------------------------
-
-# try with aaa@gmail.com    and   12345678
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -63,11 +62,11 @@ def login():
                 login_user(user, remember=True)
                 return render_template("home.html", user=user)
             else:
-                flash('Incorrect username or password, try again.', category='error')
+                flash('Incorrect email or password, try again.', category='error')
 
         # user with that email doesnt exist
         else: 
-            flash('Email does not exist', category='error')
+            flash('Incorrect email or password, try again.', category='error')
     return render_template("login.html")
 
 
@@ -127,9 +126,8 @@ def signup():
         # date & time randomizing name of filename so no two users
         # have the same profile pic filename
         pic_name = str(uuid.uuid1()) + "_" + pic_filename
-        profile_pic.save('/static/profilepics/' + secure_filename(profile_pic.filename))
-        # profile_pic.save(os.path.join('/static/profilepics/' + pic_name))
-        # print(pic_name)
+        profile_pic.save(pic_name)
+        shutil.move(profile_pic, f'/static/')
 
 
         # seeing if a user exists with the given email
