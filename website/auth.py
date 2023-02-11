@@ -1,8 +1,12 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User, Matches, BookQuotes
 from . import db
+import os
 from .goodreadscraper import get_quote
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+import uuid as uuid
+
 from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
@@ -43,10 +47,6 @@ def login():
     Returns: - home.html (if successful)
              - login.html (if unsuccessful)
     """
-    # quotes = BookQuotes.query.all()
-    # for q in quotes:
-    #     print(q.quote)
-
 
     if request.method == 'POST': 
         # get info from form
@@ -119,19 +119,25 @@ def signup():
         looking_for = request.form.get("looking_for")
         zipcode = request.form.get("zipcode")
 
+
         # dealing with the profile pic
-        profile_pic = request.files.get("ppic")
-        # if profile_pic == None: 
-        #     profile_pic = "default.png" 
-        # else: 
-        #     profile_pic = profile_pic
-        
-        # checking validity of inputs
+        #---------------------------------
+        profile_pic = request.files['ppic'] # the actual file
+        pic_filename = secure_filename(profile_pic.filename)
+        # date & time randomizing name of filename so no two users
+        # have the same profile pic filename
+        pic_name = str(uuid.uuid1()) + "_" + pic_filename
+        profile_pic.save('/static/profilepics/' + secure_filename(profile_pic.filename))
+        # profile_pic.save(os.path.join('/static/profilepics/' + pic_name))
+        # print(pic_name)
+
+
         # seeing if a user exists with the given email
         user = User.query.filter_by(email=email).first()
         if user:
             flash('An account already exists with that email. Try logging in', category='error')
         else:
+            # checking validity of inputs
             if len(f_name) < 2 or len(l_name) < 2:
                 flash('That name is too short!', category='error')
             elif len(password1) < 8:
@@ -148,7 +154,7 @@ def signup():
                                 email=email, password=generate_password_hash(password1, method='sha256'),
                                 zipcode=zipcode, gender=gender, pronouns=pronouns, sexuality=sexuality,
                                 poly=poly, passions=list_to_string(passions_list), looking_for=looking_for,
-                                fav_book=fav_book, fav_book_auth=fav_book_auth, genre=genre, profile_pic=profile_pic)
+                                fav_book=fav_book, fav_book_auth=fav_book_auth, genre=genre, profile_pic=pic_name)
                 
                 # adding the user to the database
                 db.session.add(new_user)
@@ -167,7 +173,7 @@ def signup():
                         db.session.commit()
 
                         # login
-                        login_user(new_user, remember=True)
+                        login_user(user, remember=True)
                         return redirect(url_for('views.home'))
    
                 flash("You're all set!", category='success')
@@ -177,8 +183,6 @@ def signup():
                 login_user(new_user, remember=True)
                 return redirect(url_for('views.home'))
 
-    amanda = User.query.filter_by(email="aaa@gmail.com").first()
-    print(amanda.passions)
     return render_template("signup.html")
 
 
