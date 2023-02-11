@@ -26,37 +26,216 @@
 
 
     <!-- Form with multiple 'pages' -->
-    <form method="POST">
+    <form method="POST" id="signup-form">
         <div class="form-group">
             <!-- TAB ONE -->
-            <div class="tab">
-                <h1>Sign Up</h1>
+            <div id="tab-1" class="tab" style="display:contents;">
+                <h1 id="signup-h1">Sign Up</h1>
+                <br>
                 <label for="f_name">First Name</label>
                 <input type="text" class="form-control" id="f_name" 
                         name="f_name" placeholder="Enter your first name" 
                         oninput="this.className = ''" required/>
-
+                <br>
                 <label for="l_name">Last Name</label>
                 <input type="text" class="form-control" id="l_name" 
                         name="l_name" placeholder="Enter your last name" 
                         oninput="this.className = ''" required/>
-
+                <br>
                 <label for="dob">Date of Birth</label>
                 <input type="date" class="form-control" id="dob" 
                         name="dob" 
                         oninput="this.className = ''" required/>
-
-                <p class="already-p">Already have an account? <a href="/login"><i>Login</i>now</a></p>
+                <br>
+                <p class="already-p">Already have an account? <a href="/login"><i>Login </i>now</a></p>
+                <div>
+                    <div style="float:right;">
+                      <!-- <button class="change-tab-butts" type="button" id="prevBtn" onclick="nextPrev(-1)"></button> -->
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-1', 'tab-2')">Next</button>
+                    </div>
+                </div>
             </div>
-            <!-- TAB TWO -->
-            <div class="tab">
 
+            <!-- TAB TWO -->
+            <div id="tab-2" class="tab">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" 
+                        name="email" oninput="this.className = ''" required/>
+                <br>
+                <label for="password1">Password</label>
+                <input type="password" class="form-control" id="password1" 
+                        name="password1" placeholder="********" 
+                        oninput="this.className = ''" required/>
+                <br>
+                <label for="password2">Confirm Password</label>
+                <input type="password" class="form-control" id="password2" 
+                        name="password2" placeholder="********" 
+                        oninput="this.className = ''" required/>
+                <br>
+                <div>
+                    <div style="float:right;">
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-2', 'tab-1')"></button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-2', 'tab-3')"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB THREE -->
+            <div id="tab-3" class="tab">
+                <label for="pronouns">Pronouns</label>
+                <!-- when im smarter i'll add an 'Other' option -->
+                <select class="form-control" name="pronouns" id="pronouns" required>
+                    <option value="she/her">she/her</option>
+                    <option value="he/him">he/him</option>
+                    <option value="they/them">they/them</option>
+                    <option value="zie/zim">zie/zim</option>
+                    <option value="she/they">she/they</option>
+                    <option value="he/they">he/they</option>
+                    <option value="ze/hir">ze/hir</option>
+                    <option value="xie/hir">xie/hir</option>
+                    <option value="ze/zir">ze/zir</option>
+                    <option value="ve/vis">ve/vis</option>
+                </select>
+                <br>
+                <label for="gender">Gender</label>
+                <!-- when im smarter i'll add an 'Other' option -->
+                <select class="form-control" name="gender" id="gender" required>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="nb">Non-binary</option>
+                    <option value="bigender">Bigender</option>
+                    <option value="nonc">Gender non-conforming</option>
+                    <option value="gqueer">Gender Queer</option>
+                    <option value="gfluid">Gender Fluid</option>
+                    <option value="transgender">Transgender</option>
+                    <option value="agender">Agender</option>
+                    <option value="intersex">Intersex</option>
+                    <option value="twospirit">Two-Spirit</option>
+                    <option value="thirdsex">Third Sex</option>
+                </select>
+                <br>
+                <label for="sexuality">Sexuality</label>
+                <!-- when im smarter i'll add an 'Other' option -->
+                <select class="form-control" name="sexuality" id="sexuality" required>
+                    <option value="hetero">Heterosexual</option>
+                    <option value="gay">Gay</option>
+                    <option value="lesbian">Lesbian</option>
+                    <option value="bisexual">Bisexual</option>
+                    <option value="bicurious">Bicurious</option>
+                    <option value="pansexual">Pansexual</option>
+                    <option value="asexual">Asexual</option>
+                    <option value="aromantic">Aromantic</option>
+                    <option value="demisexual">Demisexual</option>
+                    <option value="queer">Queer</option>
+                </select>
+                <br>
+                <label for="poly">Polygamy</label>
+                <select class="form-control" name="poly" id="poly" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                    <option value="-1">Maybe</option>
+                </select>
+                <br>
+                <div>
+                    <div style="float:right;">
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-3', 'tab-2')"></button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-3', 'tab-4')"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB FOUR -->
+            <div id="tab-4" class="tab">
+                <h1>Passions</h1>
+                <p><i>What are you passionate about?</i></p>
+                <input type="checkbox" name="passion1" id="passion1" value="reading" />
+                <label for="passion1">Reading</label>
+                <br>
+                <input type="checkbox" name="passion2" id="passion2" value="videogame" />
+                <label for="passion2">Video Games</label>
+                <br>
+                <input type="checkbox" name="passion3" id="passion3" value="film" />
+                <label for="passion3">Film/TV Shows</label>
+                <br>
+                <input type="checkbox" name="passion4" id="passion4" value="sports" />
+                <label for="passion4">Sports</label>
+                <br>
+                <input type="checkbox" name="passion5" id="passion5" value="music" />
+                <label for="passion5">Music</label>
+                <br>
+                <div>
+                    <div style="float:right;">
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-4', 'tab-3')"></button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-4', 'tab-5')"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB FIVE -->
+            <div id="tab-5" class="tab">
+                <label for="fav_book">Favorite Book</label>
+                <input type="text" class="form-control" id="fav_book" 
+                        name="fav_book" placeholder="The Fifth Season" 
+                        oninput="this.className = ''"/>
+                <br>
+                <label for="fav_book_auth">Author of Fav. Book</label>
+                <input type="text" class="form-control" id="fav_book_auth" 
+                        name="fav_book_auth" placeholder="NK Jemisin" 
+                        oninput="this.className = ''"/>
+                <br>
+                <label for="genre">If I were a genre, I'd be...</label>
+                <select class="form-control" name="genre" id="genre" required>
+                    <option value="action">Action</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="romance">Romance</option>
+                    <option value="fantasy">Fantasy</option>
+                    <option value="horror">Horror</option>
+                    <option value="thriller">Thriller</option>
+                    <option value="scifi">Sci-Fi</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="smut">Smut</option>
+                    <option value="hfiction">Historical Fiction</option>
+                    <option value="nfiction">Nonfiction</option>
+                </select>
+                <br>
+                <div>
+                    <div style="float:right;">
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-5', 'tab-4')"></button>
+                      <button class="change-tab-butts" type="button" id="nextBtn" onclick="nextTab('tab-5', 'tab-6')"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB SIX (last tab) -->
+            <div id="tab-6" class="tab">
+                <label for="looking_for">I'm Looking For...</label>
+                <select class="form-control" name="looking_for" id="looking_for" required>
+                    <option value="fairytale">Fairytale Love</option>
+                    <option value="etl">Enemies-to-lovers (opposites attract)</option>
+                    <option value="frel">Fake Relationship</option>
+                    <option value="onebed">One Bed</option>
+                </select>
+                <br>
+                <label for="zipcode">Zipcode</label>
+                <input type="text" class="form-control" id="zipcode" 
+                        name="zipcode" placeholder="5-digit number" 
+                        oninput="this.className = ''"/>
+                <br>
+                <!-- TODO add a profile pic situation -->
+                <label for="ppic">Profile Picture</label>
+                <input type="file" name="ppic" id="ppic" />
+                <br><br>
+                <div>
+                    <div style="float:right;">
+                      <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-6', 'tab-5')"></button>
+                      <button type="submit">Submit</button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
 
-
-
-
+    <!-- javascript from w3schools -->
+    <script src="{{url_for('static', filename='index.js')}}"></script>
 </body>
 {% endblock %}

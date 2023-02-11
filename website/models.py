@@ -3,10 +3,10 @@ from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func # func will help us get the current date and time
 
-
 #--------------------------------------------------------------------
 # USER MODEL
 #--------------------------------------------------------------------
+# TODO set some values as nullable=True
 
 class User(db.Model, UserMixin):
     """ describes a user of the website"""
@@ -33,9 +33,8 @@ class User(db.Model, UserMixin):
     fav_book = db.Column(db.String())
     fav_book_auth = db.Column(db.String())
     genre = db.Column(db.String()) # the genre that best describes them
-    # TODO come back and fix the profile pic situation
-    # profile_pic = db.Column()
-    matches = db.relationship('')
+    profile_pic = db.Column(db.String(), nullable=True)
+    # matches = db.relationship('Matches')
 
 
 #--------------------------------------------------------------------
