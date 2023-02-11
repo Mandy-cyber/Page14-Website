@@ -13,6 +13,19 @@
     body {
         overflow-x: hidden;
     }
+
+    /* submit buttons */
+    .sub-butts {
+        background-color: black;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        border-color: transparent;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
 }
 
 /* --------------------------------------- */
@@ -30,7 +43,7 @@
     #landing-buttons-div {
         position: absolute;
         top: 70%;
-        left: 5%;
+        left: -1.5vh;
     }
 
     /* button links */
@@ -52,12 +65,14 @@
         margin: 2em;
         font-family: 'Inter', sans-serif;
         font-weight: 800;
+        text-decoration: none;
     }
 
     /* login button */
     #landing-login-button {
         padding-left: 6em;
         padding-right: 6em;
+        text-decoration: none;
     }
 
     /* signup button */
@@ -79,9 +94,31 @@
 /* --------------------------------------- */
 
 @media screen and (max-width: 400px) {
+    /* CSS Gradient Code from gradient-animator.com */
     #signup-body {
-        background-color: white;
         overflow-y: hidden;
+        background: linear-gradient(270deg, #ffffff, #fff6f6, #fff1f1, #f9e8e8);
+        background-size: 800% 800%;
+
+        -webkit-animation: AnimationName 30s ease infinite;
+        -moz-animation: AnimationName 30s ease infinite;
+        animation: AnimationName 30s ease infinite;
+    }
+
+    @-webkit-keyframes AnimationName {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+    @-moz-keyframes AnimationName {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+    @keyframes AnimationName {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
     }
 
     /* div holding all waves */
@@ -115,7 +152,7 @@
 
     /* signup form */
     #signup-form {
-        background-color: white;
+        background-color: transparent;
         width: 60%;
         position: relative;
         top: 13vh;
@@ -143,6 +180,43 @@
 /* LOGIN PAGE */
 /* --------------------------------------- */
 
+@media screen and (max-width: 400px) {
+    /* CSS Gradient Code from gradient-animator.com */
+    #login-body {
+        overflow-y: hidden;
+        background: linear-gradient(270deg, #ffe2e4, #f7cdd0, #ffffff);
+        background-size: 600% 600%;
+    
+        -webkit-animation: AnimationName 30s ease infinite;
+        -moz-animation: AnimationName 30s ease infinite;
+        animation: AnimationName 30s ease infinite;
+    }
+    
+    @-webkit-keyframes AnimationName {
+        0%{background-position:0% 68%}
+        50%{background-position:100% 33%}
+        100%{background-position:0% 68%}
+    }
+    @-moz-keyframes AnimationName {
+        0%{background-position:0% 68%}
+        50%{background-position:100% 33%}
+        100%{background-position:0% 68%}
+    }
+    @keyframes AnimationName {
+        0%{background-position:0% 68%}
+        50%{background-position:100% 33%}
+        100%{background-position:0% 68%}
+    }
+
+    /* login form */
+    #login-form {
+        background-color: transparent;
+        width: 70%;
+        position: relative;
+        top: 18vh;
+        left: 15%;
+    }
+}
 
 
 

@@ -6,6 +6,12 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
+
+
+#--------------------------------------------------------------------
+# MISC STUFF
+#--------------------------------------------------------------------
+
 def list_to_string(los):
     """ converts a list into a string
     Args:
@@ -13,13 +19,19 @@ def list_to_string(los):
     Returns:
         s (string): a string which is the list
     """
-    str1 = ""
-    s = str1.join(los)
+    s = " "
+    for str in los:
+        if str == None:
+            continue
+        else:
+            s = str + s
     return s
 
 #--------------------------------------------------------------------
 # LOGIN PAGE
 #--------------------------------------------------------------------
+
+# try with aaa@gmail.com    and   12345678
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,6 +44,26 @@ def login():
     Returns: - home.html (if successful)
              - login.html (if unsuccessful)
     """
+    if request.method == 'POST': 
+        # get info from form
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        # try find associated user
+        user = User.query.filter_by(email=email).first()
+
+        #if user (email) actually exists
+        if user: 
+            if check_password_hash(user.password, password):
+                flash('Logged in successfully', category='success')
+                login_user(user, remember=True)
+                return render_template("home.html", user=user)
+            else:
+                flash('Incorrect password, try again.', category='error')
+
+        # user with that email doesnt exist
+        else: 
+            flash('Email does not exist', category='error')
     return render_template("login.html")
 
 
@@ -72,7 +104,10 @@ def signup():
         
         passions_list = []
         for x in range(1,5):
-            passions_list.append(request.form.get(f"passion{x}"))
+            try: 
+                passions_list.append(request.form.get(f"passion{x}"))
+            except:
+                continue
 
         fav_book = request.form.get("fav_book")
         fav_book_auth = request.form.get("fav_book_auth")
@@ -93,6 +128,8 @@ def signup():
         else:
             if len(f_name) < 2 or len(l_name) < 2:
                 flash('That name is too short!', category='error')
+            elif len(password1) < 8:
+                flash("Passwords should be at least 8 characters long.", category='error')
             elif password1 != password2:
                 flash("Hmmm, passwords don't match. Try again.", category='error')
             elif len(zipcode) != 5:
@@ -112,11 +149,13 @@ def signup():
                 db.session.commit()
                 flash("You're all set!", category='success')
                 print("Success")
-                
+
                 # logging them in and bringing them to the home page
-                login_user(user, remember=True)
+                login_user(new_user, remember=True)
                 return redirect(url_for('views.home'))
 
+    amanda = User.query.filter_by(email="aaa@gmail.com").first()
+    print(amanda.passions)
     return render_template("signup.html")
 
 

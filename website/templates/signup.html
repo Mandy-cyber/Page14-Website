@@ -3,6 +3,7 @@
 {% block title %} Signup {% endblock %}
 
 {% block content%}
+
 <body id="signup-body">
     <!-- gradient weird shape at bottom of page -->
     <!-- wave svgs calculated at https://getwaves.io/ -->
@@ -35,17 +36,17 @@
                 <label for="f_name">First Name</label>
                 <input type="text" class="form-control" id="f_name" 
                         name="f_name" placeholder="Enter your first name" 
-                        oninput="this.className = ''" required/>
+                        required/>
                 <br>
                 <label for="l_name">Last Name</label>
                 <input type="text" class="form-control" id="l_name" 
                         name="l_name" placeholder="Enter your last name" 
-                        oninput="this.className = ''" required/>
+                        required/>
                 <br>
                 <label for="dob">Date of Birth</label>
                 <input type="date" class="form-control" id="dob" 
                         name="dob" 
-                        oninput="this.className = ''" required/>
+                        required/>
                 <br>
                 <p class="already-p">Already have an account? <a href="/login"><i>Login </i>now</a></p>
                 <div>
@@ -60,17 +61,17 @@
             <div id="tab-2" class="tab">
                 <label for="email">Email Address</label>
                 <input type="email" class="form-control" id="email" 
-                        name="email" oninput="this.className = ''" required/>
+                        name="email" required/>
                 <br>
                 <label for="password1">Password</label>
                 <input type="password" class="form-control" id="password1" 
                         name="password1" placeholder="********" 
-                        oninput="this.className = ''" required/>
+                        required/>
                 <br>
                 <label for="password2">Confirm Password</label>
                 <input type="password" class="form-control" id="password2" 
                         name="password2" placeholder="********" 
-                        oninput="this.className = ''" required/>
+                        required/>
                 <br>
                 <div>
                     <div style="float:right;">
@@ -175,13 +176,11 @@
             <div id="tab-5" class="tab">
                 <label for="fav_book">Favorite Book</label>
                 <input type="text" class="form-control" id="fav_book" 
-                        name="fav_book" placeholder="The Fifth Season" 
-                        oninput="this.className = ''"/>
+                        name="fav_book" placeholder="The Fifth Season"/>
                 <br>
                 <label for="fav_book_auth">Author of Fav. Book</label>
                 <input type="text" class="form-control" id="fav_book_auth" 
-                        name="fav_book_auth" placeholder="NK Jemisin" 
-                        oninput="this.className = ''"/>
+                        name="fav_book_auth" placeholder="NK Jemisin"/>
                 <br>
                 <label for="genre">If I were a genre, I'd be...</label>
                 <select class="form-control" name="genre" id="genre" required>
@@ -218,8 +217,7 @@
                 <br>
                 <label for="zipcode">Zipcode</label>
                 <input type="text" class="form-control" id="zipcode" 
-                        name="zipcode" placeholder="5-digit number" 
-                        oninput="this.className = ''"/>
+                        name="zipcode" placeholder="5-digit number"/>
                 <br>
                 <!-- TODO add a profile pic situation -->
                 <label for="ppic">Profile Picture</label>
@@ -228,7 +226,7 @@
                 <div>
                     <div style="float:right;">
                       <button class="change-tab-butts" type="button" id="prevBtn" onclick="prevTab('tab-6', 'tab-5')"></button>
-                      <button type="submit">Submit</button>
+                      <button type="submit" class="sub-butts">Submit</button>
                     </div>
                 </div>
             </div>
