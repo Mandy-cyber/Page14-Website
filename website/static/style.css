@@ -87,6 +87,25 @@
 /* HOME PAGE */
 /* --------------------------------------- */
 
+@media screen and (max-width: 400px) {
+    #home-body {
+        background-color: white;
+    }
+
+    #changing-text-span {
+        color: red;
+    }
+
+    #changing-text-span:after {
+        content: "princex";
+        animation: change 4s linear infinite;
+    }
+
+    @keyframes change {
+        0% {content: "prince";}
+        50% {content: "princess";}
+    }
+}
 
 
 /* --------------------------------------- */

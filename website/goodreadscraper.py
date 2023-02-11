@@ -2,9 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-# from . import db
-import time
-
 
 
 def get_quote(book, author):
@@ -15,7 +12,9 @@ def get_quote(book, author):
         author (str): name of the book's author
     
     Returns:
-        quote (str): a quote from that book
+        book_name (str): the book's full name including
+                         the author's name
+        quote (str): a quote from the book
     """
     # SETTING UP BROWSER
     chrome_options = Options()
@@ -32,10 +31,13 @@ def get_quote(book, author):
 
     # navigating to page and getting the first quote
     browser.get(f"https://www.goodreads.com/quotes/search?utf8=%E2%9C%93&q={formatted_text}&commit=Search")
-    quote = browser.find_element(By.CLASS_NAME, "quoteText")
-    
-    return quote
+    try:
+        quote = browser.find_element(By.CLASS_NAME, "quoteText")
+    except:
+        quote = ""
 
+    book_name = book + " by " + author
+    return book_name, quote.text
 
 
 

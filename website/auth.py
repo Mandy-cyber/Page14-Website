@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User, Matches, BookQuotes
 from . import db
+from .goodreadscraper import get_quote
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
-
-
 
 #--------------------------------------------------------------------
 # MISC STUFF
@@ -44,6 +43,11 @@ def login():
     Returns: - home.html (if successful)
              - login.html (if unsuccessful)
     """
+    # quotes = BookQuotes.query.all()
+    # for q in quotes:
+    #     print(q.quote)
+
+
     if request.method == 'POST': 
         # get info from form
         email = request.form.get('email')
@@ -59,7 +63,7 @@ def login():
                 login_user(user, remember=True)
                 return render_template("home.html", user=user)
             else:
-                flash('Incorrect password, try again.', category='error')
+                flash('Incorrect username or password, try again.', category='error')
 
         # user with that email doesnt exist
         else: 
@@ -144,11 +148,28 @@ def signup():
                                 poly=poly, passions=list_to_string(passions_list), looking_for=looking_for,
                                 fav_book=fav_book, fav_book_auth=fav_book_auth, genre=genre, profile_pic=profile_pic)
                 
-                # adding them to the database
+                # adding the user to the database
                 db.session.add(new_user)
                 db.session.commit()
+
+                # finding a quote from their favorite book which will join
+                # the collection for the homepage
+                if (fav_book != None) and (fav_book_auth != None):
+                    book_name , quote = get_quote(fav_book, fav_book_auth)
+                    if quote != "":
+                        # make a new book quote object
+                        new_quote = BookQuotes(name=book_name, quote=quote)
+
+                        # adding the book quote to the database
+                        db.session.add(new_quote)
+                        db.session.commit()
+
+                        # login
+                        login_user(new_user, remember=True)
+                        return redirect(url_for('views.home'))
+   
                 flash("You're all set!", category='success')
-                print("Success")
+                
 
                 # logging them in and bringing them to the home page
                 login_user(new_user, remember=True)
