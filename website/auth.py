@@ -15,6 +15,7 @@ import shutil
 import string
 import re
 
+# nltk.download('wordnet')
 auth = Blueprint('auth', __name__)
 
 #--------------------------------------------------------------------
@@ -48,10 +49,9 @@ def text_pre_processing(text):
     """
     # remove numbers
     text = re.sub(r'[0-9]', '', text)
-    print(f"Text w/out ")
 
     # remove punctuation 
-    text = text.translate('', '', string.punctuation)
+    text = text.translate(str.maketrans('', '', string.punctuation))
 
     # lowercase the text
     text = text.lower()
@@ -63,22 +63,24 @@ def text_pre_processing(text):
     stop_words = set(stopwords.words('english'))
     new_text = []
 
-    for word in list(text):
-        if word not in stopwords:
-            new_text = new_text.append(word)
+    for word in text.split():
+        if word not in stop_words:
+            new_text.append(word)
         else:
             continue
 
     # lemmatization
+    # TODO make this better
     lemma = WordNetLemmatizer()
-    lemma_text = []
+    lemma_text = list()
 
     for word in new_text:
         word = lemma.lemmatize(word)
-        lemma_text = lemma_text.append(word)
+        lemma_text.append(word)
 
     processed_text = lemma_text
     return processed_text
+
 
 #--------------------------------------------------------------------
 # LOGIN PAGE
@@ -95,6 +97,9 @@ def login():
     Returns: - home.html (if successful)
              - login.html (if unsuccessful)
     """
+    # all_users = User.query.all()
+    # for u in all_users:
+    #     print(f"Image: {u.profile_pic}")
 
     if request.method == 'POST': 
         # get info from form
@@ -162,7 +167,7 @@ def signup():
         gender = request.form.get("gender")
         sexuality = request.form.get("sexuality")
         poly = request.form.get("poly")
-        passions = request.form.get("passions")
+        passions_list = text_pre_processing(request.form.get("passions"))
         fav_book = request.form.get("fav_book")
         fav_book_auth = request.form.get("fav_book_auth")
         genre = request.form.get("genre")
@@ -178,7 +183,9 @@ def signup():
         # have the same profile pic filename
         pic_name = str(uuid.uuid1()) + "_" + pic_filename
         profile_pic.save(pic_name)
-        shutil.move(profile_pic, f'/static/')
+        # full_file_path = r"""C:\Users\amand\OneDrive\Desktop\CH\Page14\Page14\website""" + "\\" + pic_name
+        # new_file_path = r"""C:\Users\amand\OneDrive\Desktop\CH\Page14\Page14\website\static""" + "\\" + pic_name
+        # os.rename(full_file_path, new_file_path)
 
 
         # seeing if a user exists with the given email
@@ -205,6 +212,7 @@ def signup():
                                 poly=poly, passions=list_to_string(passions_list), looking_for=looking_for,
                                 fav_book=fav_book, fav_book_auth=fav_book_auth, genre=genre, profile_pic=pic_name)
                 
+                print(list_to_string(passions_list))
                 # adding the user to the database
                 db.session.add(new_user)
                 db.session.commit()
@@ -222,7 +230,7 @@ def signup():
                         db.session.commit()
 
                         # login
-                        login_user(user, remember=True)
+                        login_user(new_user, remember=True)
                         return redirect(url_for('views.home'))
    
                 flash("You're all set!", category='success')

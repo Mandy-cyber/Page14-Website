@@ -26,18 +26,19 @@ def get_quote(book, author):
     # (see below this function) so I am just reformatting
     # the text to fit that
     author = "by " + author
-    all_words = book.split() + author.split()
+    all_words = book.lower().split() + author.lower().split()
     formatted_text = "+".join(all_words)
 
     # navigating to page and getting the first quote
     browser.get(f"https://www.goodreads.com/quotes/search?utf8=%E2%9C%93&q={formatted_text}&commit=Search")
     try:
         quote = browser.find_element(By.CLASS_NAME, "quoteText")
+        quote = quote.text
     except:
         quote = ""
 
     book_name = book + " by " + author
-    return book_name, quote.text
+    return book_name, quote
 
 
 

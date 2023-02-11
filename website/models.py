@@ -9,7 +9,10 @@ from sqlalchemy.sql import func # func will help us get the current date and tim
 # TODO set some values as nullable=True
 
 class User(db.Model, UserMixin):
-    """ describes a user of the website"""
+    """ describes a user of the website
+    
+    Attributes: too many to list right now omg
+    """
 
     id = db.Column(db.Integer, primary_key=True)
     f_name = db.Column(db.String(32)) # first name
@@ -36,9 +39,6 @@ class User(db.Model, UserMixin):
     profile_pic = db.Column(db.String(), nullable=True)
     # matches = db.relationship('Matches')
 
-    # def __repr__(self):
-    #     """ User -> str"""
-    #     return f"User f_name={self.fname} /n "
 
 
 #--------------------------------------------------------------------

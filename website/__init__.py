@@ -12,7 +12,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'somesecretkeywillgohereanddontforgettowritean.envfile' # TODO change this secret key
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
-    UPLOAD_FOLDER = 'static/profilepics/'
+    UPLOAD_FOLDER = '/'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     db.init_app(app)
 
