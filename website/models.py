@@ -48,7 +48,9 @@ class Matches(db.Model):
     """describes matches that a user has"""
 
     id = db.Column(db.Integer, primary_key=True)
-    matched_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
+    id_of_match = db.Column(db.Integer) # id of who the user matched with
+    rating = db.Column(db.Double) # how good the match is
 
 
 #--------------------------------------------------------------------

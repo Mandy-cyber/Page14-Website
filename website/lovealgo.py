@@ -218,9 +218,13 @@ def passion_similarity(passions1, passions2):
         return similarity_idx
 
 
+# passion_similarity(user_2.passions, user_3.passions)
 
-
+#--------------------------------------------------------------------
+# EXAMPLES
+#--------------------------------------------------------------------
 # examples of users -- not saved to database
+
 user_1 = User(f_name="Manda", l_name="Ro", email="manda@gmail.com",
               password=generate_password_hash("randopasso", method='sha256'),
               dob="2004-02-01", age=19, zipcode=00000, gender="female",
@@ -247,5 +251,4 @@ user_3 = User(f_name="Joe", l_name="Johnson", email="joejo@gmail.com",
 
 
 # og user_3 passions = tv,film,hiking
-# passion_similarity(user_2.passions, user_3.passions)
 
