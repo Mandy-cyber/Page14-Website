@@ -1,4 +1,4 @@
-import nltk
+from nltk.corpus import wordnet as wn
 import string
 import re
 from models import User, Matches
@@ -132,6 +132,94 @@ def filter_out_matches(this_user, potential_matches):
     return suited_matches
 
 
+
+#--------------------------------------------------------------------
+# TOP 5 SYNONYMS
+#--------------------------------------------------------------------
+# not sure how to write tests for this 
+
+def five_synonyms(word):
+    """ get five synonyms of the given word
+
+    Args:
+        word (str): word to find synonyms of
+    Returns:
+        five_syns (set): set of five synonyms
+                         of the word
+    """
+    # below code from nltk documentation website and 
+    # https://www.holisticseo.digital/python-seo/nltk/wordnet
+    synonyms = []
+
+    for syn in wn.synsets(word):
+        for i in syn.lemmas():
+            synonyms.append(i.name())
+
+    five_syns = set(synonyms) #make it a set so no repeats
+    return five_syns
+
+
+
+#--------------------------------------------------------------------
+# SIMILARITY IN PASSIONS
+#--------------------------------------------------------------------
+# not sure how to write tests for this 
+
+def passion_similarity(passions1, passions2):
+    """ calculate how similar two users' passions are
+        on an ascending scale of 0 to 1.
+
+    Args:
+        passions1 (str): a User's passions
+        passions2 (str): another User's passions
+
+    Returns
+        similarity_idx (double): how similar their passions are
+    """
+    # turn passions into list for iteration sake
+    # first turn to set to remove duplicate words
+    passions1 = list(set(passions1.split(',')))
+    passions2 = list(set(passions2.split(',')))
+
+    # if the lists happen to be the same
+    if passions1 == passions2:
+        similarity_idx = 1
+        return similarity_idx
+    
+    # if there is a list with no passions
+    elif (passions1 == list()) or (passions2 == list()):
+        similarity_idx = 0
+        return similarity_idx
+    
+    # if the lists are not exactly the same
+    else:
+        # expand the second (could have also been the first)
+        # list to include synonyms of each word
+        expanded_passions2 = []
+        for p2 in passions2:
+            five_syns = list(five_synonyms(p2)) # convert set to list
+            for syn in five_syns:
+                expanded_passions2.append(syn)
+
+        # check how many passions from passions1 are seen in
+        # the expanded passions2 list
+        num_shared = 0
+        for p1 in passions1:
+            if p1 in expanded_passions2:
+                num_shared += 1
+            else:
+                continue
+
+            
+        # similarity rating = num of similar / total amount before expansion (?)
+        similarity_idx = num_shared / (len(passions1) + len(passions2))
+        print(f"Num Shared: {num_shared}") 
+        print(f"Similarity Index: {similarity_idx}")
+        return similarity_idx
+
+
+
+
 # examples of users -- not saved to database
 user_1 = User(f_name="Manda", l_name="Ro", email="manda@gmail.com",
               password=generate_password_hash("randopasso", method='sha256'),
@@ -153,7 +241,11 @@ user_3 = User(f_name="Joe", l_name="Johnson", email="joejo@gmail.com",
               password=generate_password_hash("randopassotassolasso", method='sha256'),
               dob="2000-12-05", age=23, zipcode=21, gender="male",
               pronouns="he/him", sexuality="hetero", poly=1, 
-              passions="tv,film,hiking", looking_for="fairytale",
+              passions="writing,coding,baking,soccer,videogames", looking_for="fairytale",
               fav_book="Rage of dragons", fav_book_auth="Evan winters", genre="horror",
               profile_pic="default.png")
+
+
+# og user_3 passions = tv,film,hiking
+# passion_similarity(user_2.passions, user_3.passions)
 

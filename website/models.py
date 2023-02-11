@@ -36,7 +36,7 @@ class User(db.Model, UserMixin):
     fav_book_auth = db.Column(db.String())
     genre = db.Column(db.String()) # the genre that best describes them
     profile_pic = db.Column(db.String(), nullable=True)
-    # matches = db.relationship('Matches')
+    matches = db.relationship('Matches')
 
 
 
@@ -48,8 +48,7 @@ class Matches(db.Model):
     """describes matches that a user has"""
 
     id = db.Column(db.Integer, primary_key=True)
-    # not sure if imma need this or not so just leaving it here for now
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    matched_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 #--------------------------------------------------------------------
