@@ -1,5 +1,4 @@
-from flask import Flask, session
-from flask_session import Session
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 from flask_login import LoginManager
@@ -8,17 +7,16 @@ import uuid as uuid
 
 db = SQLAlchemy()
 DB_NAME = "love.db"
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login' # where the website should direct us if the user is not logged in
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'somesecretkeywillgohereanddontforgettowritean.envfile' # TODO change this secret key
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
-    app.config['SESSION_PERMANENT'] = False
-    app.config['SESSION_TYPE'] = 'filesystem'
     UPLOAD_FOLDER = '/'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     db.init_app(app)
-    Session(app)
 
     from .views import views
     from .auth import auth
@@ -31,16 +29,8 @@ def create_app():
     # above is deprecated xD, so below is newer version i guess
     with app.app_context():
         db.create_all()
-
-    login_manager = LoginManager()
-    login_manager.login_view = 'auth.login' # where the website should direct us if the user is not logged in
     login_manager.init_app(app)
-    @login_manager.user_loader
-    def load_user(id):
-        return User.query.get(int(id)) 
-
     return app
-
 
 # oops this way is deprecated.
 #-------------------------------

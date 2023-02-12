@@ -5,10 +5,15 @@ from nltk.corpus import wordnet as wn
 import string
 import re
 from .models import User, Matches, BookQuotes
-from . import db
+from . import db, login_manager
 import time
 
 views = Blueprint('views', __name__)
+
+@login_manager.user_loader
+def load_user(id):
+    print(id)
+    return User.query.get(int(id)) 
 
 #--------------------------------------------------------------------
 # LANDING PAGE
@@ -360,22 +365,19 @@ def make_matches(curr_user):
 
 #-------------------------------------------------------------------#
 
-@login_required
+
 @views.route('/matches')
+@login_required
 def matches():
     """ the page where a user can go through all 
         their different potential matches.
     Returns: renders matches.html
     """
 
-    # if not session['email']:
-    #     print("Email not saved in session")
-    #     return redirect(url_for("auth.login"))
+        # current_user = User.query.filter_by(email=session.get('email')).first()
+        # print(current_user.f_name)
     
-    # else:
-    #     current_user = User.query.filter_by(email=session.get('email')).first()
-    #     print(current_user.f_name)
-    
+    print(current_user.f_name)
 
     # if user.is_authenticated:
     #     # make_matches(curr_user=current_user)
@@ -390,8 +392,9 @@ def matches():
 # MESSAGES PAGE
 #--------------------------------------------------------------------
 
-@login_required
+
 @views.route('/messages', methods=['GET', 'POST'])
+@login_required
 def messages():
     """ where a user can chat with people they
         have matched with.
@@ -404,8 +407,9 @@ def messages():
 # PROFILE PAGE
 #--------------------------------------------------------------------
 
-@login_required
+
 @views.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     """ where a user can see their profile, and make
         changes/updates to it.

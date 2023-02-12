@@ -366,8 +366,16 @@
 /* --------------------------------------- */
 /* PROFILE PAGE */
 /* --------------------------------------- */
-
-
+@media screen  and (max-width:400px) {
+    /* div holding all waves */
+    #profile-waves-div {
+        width: 150%;
+        height: auto;
+        position: relative;
+        left: -5%;
+        top: 85vh;
+    }
+}
 
 
 /* --------------------------------------- */
@@ -380,3 +388,10 @@
 /* --------------------------------------- */
 /* MATCHES PAGE */
 /* --------------------------------------- */
+@media screen and (max-width: 400px) {
+    #profile-card-div {
+        width: 15em;
+        height: auto;
+        background-color: transparent;
+    }
+}
