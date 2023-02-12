@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, render_template, flash, request
+from flask import Blueprint, jsonify, render_template,redirect, url_for, flash, request, session
+from flask_session import Session
 from flask_login import login_required, current_user
 from nltk.corpus import wordnet as wn
 import string
@@ -288,7 +289,7 @@ def bonus_amount(user1, user2):
 
 # make matches if suitable
 # no serious math behind these number options. just examples for now.
-def make_matches(user):
+def make_matches(curr_user):
     """ add matches (i.e show them a person) if they pass
         certain criteria determined by 'looking_for' field.
         - fairytale = add if rating is 0.7 or above
@@ -298,12 +299,14 @@ def make_matches(user):
         - friends-to-lovers = add if rating is 0.8 or above
 
     Args:
-        user (User): the user we are finding matches for
+        curr_user (User): the user we are finding matches for
     """
     # in the future i won't query the entire database for matches
     # since that would get impractical as it upscales. for now
     # it is fine since the volume is small
     all_users = User.query.all()
+    
+    user = User.query.filter_by(id=curr_user.id).first()
 
     print(f"Total Number of Users excluding this one: {len(all_users)}")
     user_passions = user.passions
@@ -364,12 +367,22 @@ def matches():
         their different potential matches.
     Returns: renders matches.html
     """
-    # time_counter = 0
-    # while True:
-    #     if (time_counter % 84000 == 0):
-    #         make_matches(user=current_user)
 
-    # make_matches(user=current_user)
+    # if not session['email']:
+    #     print("Email not saved in session")
+    #     return redirect(url_for("auth.login"))
+    
+    # else:
+    #     current_user = User.query.filter_by(email=session.get('email')).first()
+    #     print(current_user.f_name)
+    
+
+    # if user.is_authenticated:
+    #     # make_matches(curr_user=current_user)
+    #     print("user is authenticated")
+    # else:
+    #     print("Not authenticated")
+
     return render_template("matches.html", user=current_user)
 
 

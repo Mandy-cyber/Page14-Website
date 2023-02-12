@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, session
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import os
 from flask_login import LoginManager
@@ -12,9 +13,12 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'somesecretkeywillgohereanddontforgettowritean.envfile' # TODO change this secret key
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
+    app.config['SESSION_PERMANENT'] = False
+    app.config['SESSION_TYPE'] = 'filesystem'
     UPLOAD_FOLDER = '/'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     db.init_app(app)
+    Session(app)
 
     from .views import views
     from .auth import auth
@@ -29,11 +33,11 @@ def create_app():
         db.create_all()
 
     login_manager = LoginManager()
-    login_manager.login_view = 'auth.login' #where the website should direct us if the user is not logged in
+    login_manager.login_view = 'auth.login' # where the website should direct us if the user is not logged in
     login_manager.init_app(app)
     @login_manager.user_loader
     def load_user(id):
-        return User.query.get(int(id)) #get knows tht we are looking for id
+        return User.query.get(int(id)) 
 
     return app
 

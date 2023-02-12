@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
+from flask_session import Session
 from .models import User, Matches, BookQuotes
 from . import db
 import nltk
@@ -139,8 +140,6 @@ def login():
     #     print(f"Image: {u.profile_pic}")
     # generate_data()
 
-    print(os.getcwd())
-
     if request.method == 'POST': 
         
         # get info from form
@@ -155,7 +154,8 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in successfully', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for("views.home"))
+                # return redirect(url_for("views.home"))
+                return render_template("home.html", user=current_user)
             else:
                 flash('Incorrect email or password, try again.', category='error')
 
@@ -282,7 +282,8 @@ def signup():
                 
                 # logging them in and bringing them to the home page
                 login_user(new_user, remember=True)
-                return redirect(url_for('views.home'))
+                # return redirect(url_for('views.home'))
+                return render_template("home.html", user=current_user)
 
     return render_template("signup.html")
 

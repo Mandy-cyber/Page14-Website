@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+<body id="user-profile-body">
+
+    
+    
+
+    <!-- Navigation bar (for the bottom of the screen) -->
+    <nav class="bottom-nav">
+        <ul class="nav-list">
+            <li class="nav-list-item">
+                <a href="/home"><img class="nav-img" src="{{ url_for('static', filename='home-icon.png') }}" alt="home icon"></a>
+            </li>
+            <li class="nav-list-item">
+                <a href="/messages"><img class="nav-img" src="{{ url_for('static', filename='message-icon.png') }}" alt="chat bubble icon"></a>
+            </li>
+            <li class="nav-list-item">
+                <a href="/matches"><img class="nav-img" src="{{ url_for('static', filename='bmrk.png') }}" alt="bookmark icon"></a>
+            </li>
+            {% if user.profile_pic != None %}
+                <li class="nav-list-item">
+                    <a href="/profile"><img id="user-profile-pic" class="nav-img" src="{{ url_for('static', filename=user.profile_pic) }}" alt="profile icon"></a>
+                </li>
+            {% else %}
+                <li class="nav-list-item">
+                    <a href="/profile"><img class="nav-img" src="{{ url_for('static', filename='prof.png') }}" alt="profile icon"></a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+
+</body>
+{% endblock %}

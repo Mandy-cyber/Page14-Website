@@ -125,8 +125,8 @@
 
     /* user's profile pic */
     #user-profile-pic {
-        position: fixed;
-        z-index: 1;
+        width: 48px;
+        height: 48px;
     }
 
     /* list of nav items */
@@ -214,7 +214,7 @@
     /* things to make the text change */
     #changing-text-span:after {
         content: "princex";
-        animation: change 5s linear infinite;
+        animation: change 4s linear infinite;
     }
 
     @keyframes change {
@@ -373,6 +373,8 @@
 /* --------------------------------------- */
 /* MESSAGES PAGE */
 /* --------------------------------------- */
+
+
 
 
 /* --------------------------------------- */

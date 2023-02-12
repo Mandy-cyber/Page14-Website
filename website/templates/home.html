@@ -30,6 +30,7 @@
                 <a href="/messages"><img class="nav-img" src="{{ url_for('static', filename='message-icon.png') }}" alt="chat bubble icon"></a>
             </li>
             <li class="nav-list-item">
+                <!-- {{ url_for('views.matches', user=user) }} -->
                 <a href="/matches"><img class="nav-img" src="{{ url_for('static', filename='bmrk.png') }}" alt="bookmark icon"></a>
             </li>
             {% if user.profile_pic != None %}
