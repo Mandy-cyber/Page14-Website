@@ -34,7 +34,7 @@
             </li>
             {% if user.profile_pic != None %}
                 <li class="nav-list-item">
-                    <a href="/profile"><img class="nav-img" src="{{ url_for('static', filename='prof.png') }}" alt="profile icon"></a>
+                    <a href="/profile"><img id="user-profile-pic" class="nav-img" src="{{ url_for('static', filename=user.profile_pic) }}" alt="profile icon"></a>
                 </li>
             {% else %}
                 <li class="nav-list-item">

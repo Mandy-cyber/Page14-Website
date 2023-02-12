@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User, Matches, BookQuotes
 from . import db
 import nltk
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords, names
 from nltk.stem import WordNetLemmatizer
 import os
 from .goodreadscraper import get_quote
@@ -13,9 +13,45 @@ from flask_login import login_user, login_required, logout_user, current_user
 import shutil
 import string
 import re
+import random
+from .datagenerator import *
 
 # nltk.download('wordnet')
 auth = Blueprint('auth', __name__)
+
+#--------------------------------------------------------------------
+# GENERATE RANDOM DATA
+#--------------------------------------------------------------------
+
+def generate_data():
+    for x in range(100):
+        names = random_name()
+        f_name = names[0]
+        l_name = names[1]
+        dob = random_bday()
+        rando_user = User(f_name=f_name, 
+                            l_name=l_name, 
+                            email=generate_email(f_name, l_name),
+                            dob=dob, 
+                            password=generate_password_hash(random_pass(), method='sha256'),
+                            age=calc_age(dob), 
+                            zipcode=random_zipcode(), 
+                            gender=random_gender(),
+                            pronouns=random_pronoun(),
+                            sexuality=random_sexuality(),
+                            poly=random_poly(),
+                            passions=random_passions(),
+                            looking_for=random_looking_for(),
+                            fav_book=random_book(),
+                            fav_book_auth=random_author(), 
+                            genre=random_genre(), 
+                            profile_pic="default.png")
+        db.session.add(rando_user)
+        db.session.commit()
+        print(f"Made {rando_user.f_name}")
+
+
+
 
 #--------------------------------------------------------------------
 # MISC STUFF
@@ -101,8 +137,12 @@ def login():
     # all_users = User.query.all()
     # for u in all_users:
     #     print(f"Image: {u.profile_pic}")
+    # generate_data()
+
+    print(os.getcwd())
 
     if request.method == 'POST': 
+        
         # get info from form
         email = request.form.get('email')
         password = request.form.get('password')
@@ -122,6 +162,8 @@ def login():
         # user with that email doesnt exist
         else: 
             flash('Incorrect email or password, try again.', category='error')
+
+    
     return render_template("login.html")
 
 
@@ -183,10 +225,11 @@ def signup():
         # date & time randomizing name of filename so no two users
         # have the same profile pic filename
         pic_name = str(uuid.uuid1()) + "_" + pic_filename
+        
         profile_pic.save(pic_name)
-        # full_file_path = r"""C:\Users\amand\OneDrive\Desktop\CH\Page14\Page14\website""" + "\\" + pic_name
-        # new_file_path = r"""C:\Users\amand\OneDrive\Desktop\CH\Page14\Page14\website\static""" + "\\" + pic_name
-        # os.rename(full_file_path, new_file_path)
+        full_file_path = pic_name
+        new_file_path = "./website/static/"  + pic_name
+        os.rename(full_file_path, new_file_path)
 
 
         # seeing if a user exists with the given email
@@ -218,26 +261,25 @@ def signup():
                 db.session.add(new_user)
                 db.session.commit()
 
-                # finding a quote from their favorite book which will join
-                # the collection for the homepage
-                # TODO figure out how to not make this take forever
-                if (fav_book != None) and (fav_book_auth != None):
-                    book_name , quote = get_quote(fav_book, fav_book_auth)
-                    if quote != "":
-                        # make a new book quote object
-                        new_quote = BookQuotes(name=book_name, quote=quote)
+                # # finding a quote from their favorite book which will join
+                # # the collection for the homepage
+                # # TODO figure out how to not make this take forever
+                # if (fav_book != None) and (fav_book_auth != None):
+                #     book_name , quote = get_quote(fav_book, fav_book_auth)
+                #     if quote != "":
+                #         # make a new book quote object
+                #         new_quote = BookQuotes(name=book_name, quote=quote)
 
-                        # adding the book quote to the database
-                        db.session.add(new_quote)
-                        db.session.commit()
+                #         # adding the book quote to the database
+                #         db.session.add(new_quote)
+                #         db.session.commit()
 
-                        # login
-                        login_user(new_user, remember=True)
-                        return redirect(url_for('views.home'))
+                #         # login
+                #         login_user(new_user, remember=True)
+                #         return redirect(url_for('views.home'))
    
                 flash("You're all set!", category='success')
                 
-
                 # logging them in and bringing them to the home page
                 login_user(new_user, remember=True)
                 return redirect(url_for('views.home'))
